@@ -48,21 +48,36 @@ public class Tour {
     public double length() {
         double length = 0.0;
         Node current = start;
-        for (int i = 0; i < count; i++) {
+
+        do {
             length += current.p.distanceTo(current.next.p);
             current = current.next;
-        }
+        } while (current != start);
+
         return length;
     }
 
     // returns a string representation of this tour
     public String toString() {
-        return "";
+        StringBuilder statement = new StringBuilder();
+        Node current = start;
+
+        do {
+            statement.append(current.p.toString() + "\n");
+            current = current.next;
+        } while (current != start);
+
+        return statement.toString();
     }
 
     // draws this tour to standard drawing
     public void draw() {
+        Node current = start;
 
+        do {
+            current.p.drawTo(current.next.p);
+            current = current.next;
+        } while (current != start);
     }
 
     // inserts p using the nearest neighbor heuristic
@@ -77,6 +92,9 @@ public class Tour {
 
 
     public static void main(String[] args) {
+        StdDraw.setXscale(0, 600);
+        StdDraw.setYscale(0, 600);
+
         // define 4 points that are the corners of a square
         Point a = new Point(100.0, 100.0);
         Point b = new Point(500.0, 100.0);
@@ -91,5 +109,8 @@ public class Tour {
         double length = squareTour.length();
         StdOut.println("Number of points = " + size);
         StdOut.println("Length = " + length);
+        StdOut.println(squareTour);
+
+        squareTour.draw();
     }
 }
