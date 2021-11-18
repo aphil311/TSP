@@ -82,7 +82,30 @@ public class Tour {
 
     // inserts p using the nearest neighbor heuristic
     public void insertNearest(Point p) {
+        Node node = new Node(p);
+        if (size() == 0) {
+            start = node;
+            node.next = node;
+            count++;
+            return;
+        }
+        double closestDistance = Double.POSITIVE_INFINITY;
+        Node choice = start;
+        Node current = start;
+        double distance;
 
+        do {
+            distance = p.distanceTo(current.p);
+            if (distance < closestDistance) {
+                closestDistance = distance;
+                choice = current;
+            }
+            current = current.next;
+        } while (current != start);
+
+        node.next = choice.next;
+        choice.next = node;
+        count++;
     }
 
     // inserts p using the smallest increase heuristic
